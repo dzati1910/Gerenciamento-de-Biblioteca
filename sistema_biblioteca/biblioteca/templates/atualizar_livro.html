@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}Atualizar Livro{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  {% if user.is_superuser %}
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+            <h2 class="mb-0">Atualizar Livro</h2>
+          <div class="card-body p-4">
+            <form method="post">
+              {% csrf_token %}
+              
+              <!-- Informações Básicas -->
+              <div class="mb-4 pb-3" style="border-bottom: 2px solid #00d4ff;">
+                <h4 class="mb-3" style="color: #343a40;">Informações Básicas</h4>
+                
+                <!-- Título -->
+                <div class="mb-3">
+                  <label for="id_titulo" class="form-label">{{ form.titulo.label }}</label>
+                  <div class="input-group">
+                    {{ form.titulo }}
+                    <span class="input-group-text">
+                      <i class="bi bi-book-fill"></i>
+                    </span>
+                  </div>
+                  {% if form.titulo.help_text %}
+                    <small class="form-text text-muted">{{ form.titulo.help_text }}</small>
+                  {% endif %}
+                  {% for error in form.titulo.errors %}
+                    <div class="invalid-feedback d-block">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+                </div>
+                
+                <!-- Autor -->
+                <div class="mb-3">
+                  <label for="id_autor" class="form-label">{{ form.autor.label }}</label>
+                  <div class="input-group">
+                    {{ form.autor }}
+                    <span class="input-group-text">
+                      <i class="bi bi-person-fill"></i>
+                    </span>
+                  </div>
+                  {% if form.autor.help_text %}
+                    <small class="form-text text-muted">{{ form.autor.help_text }}</small>
+                  {% endif %}
+                  {% for error in form.autor.errors %}
+                    <div class="invalid-feedback d-block">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              
+              <!-- Detalhes do Livro -->
+              <div class="mb-4 pb-3" style="border-bottom: 2px solid #00d4ff;">
+                <h4 class="mb-3" style="color: #343a40;">Detalhes do Livro</h4>
+                
+                <!-- Data de Publicação -->
+                <div class="mb-3">
+                  <label for="id_data_publicacao" class="form-label">{{ form.data_publicacao.label }}</label>
+                  <div class="input-group">
+                    {{ form.data_publicacao }}
+                    <span class="input-group-text">
+                      <i class="bi bi-calendar"></i>
+                    </span>
+                  </div>
+                  {% if form.data_publicacao.help_text %}
+                    <small class="form-text text-muted">{{ form.data_publicacao.help_text }}</small>
+                  {% endif %}
+                  {% for error in form.data_publicacao.errors %}
+                    <div class="invalid-feedback d-block">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+                </div>
+                
+                <!-- ISBN -->
+                <div class="mb-3">
+                  <label for="id_isbn" class="form-label">{{ form.isbn.label }}</label>
+                  <div class="input-group">
+                    {{ form.isbn }}
+                    <span class="input-group-text">
+                      <i class="bi bi-barcode"></i>
+                    </span>
+                  </div>
+                  {% if form.isbn.help_text %}
+                    <small class="form-text text-muted">{{ form.isbn.help_text }}</small>
+                  {% endif %}
+                  {% for error in form.isbn.errors %}
+                    <div class="invalid-feedback d-block">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+                </div>
+                
+                <!-- Cópias Disponíveis -->
+                <div class="mb-3">
+                  <label for="id_copias_disponiveis" class="form-label">{{ form.copias_disponiveis.label }}</label>
+                  <div class="input-group">
+                    {{ form.copias_disponiveis }}
+                    <span class="input-group-text">
+                      <i class="bi bi-card-list"></i>
+                    </span>
+                  </div>
+                  {% if form.copias_disponiveis.help_text %}
+                    <small class="form-text text-muted">{{ form.copias_disponiveis.help_text }}</small>
+                  {% endif %}
+                  {% for error in form.copias_disponiveis.errors %}
+                    <div class="invalid-feedback d-block">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              
+              <!-- Categorias -->
+              <div class="mb-4">
+                <h4 class="mb-3" style="color: #343a40;">Categorias</h4>
+                <div class="mb-3">
+                  <label for="id_categorias" class="form-label">{{ form.categorias.label }}</label>
+                  <div class="input-group">
+                    {{ form.categorias }}
+                    <span class="input-group-text">
+                      <i class="bi bi-tag-fill text-primary"></i>
+                    </span>
+                  </div>
+                  {% if form.categorias.help_text %}
+                    <small class="form-text text-muted">{{ form.categorias.help_text }}</small>
+                  {% endif %}
+                  {% for error in form.categorias.errors %}
+                    <div class="invalid-feedback d-block">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              
+              <!-- Botões -->
+              <div class="d-flex justify-content-between mt-4">
+                <button type="submit" class="btn btn-success btn-custom" style="border-radius: 30px;">
+                  <i class="bi bi-save"></i> Salvar Alterações
+                </button>
+                <a href="{% url 'listar_livro' %}" class="btn btn-danger btn-custom" style="border-radius: 30px;">
+                  <i class="bi bi-x-circle"></i> Cancelar
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+  {% else %}
+    {% include 'restrito.html' %}
+  {% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+<main class="container animate-fade">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1 class="mb-5">Gerencie sua biblioteca com praticidade</h1>
+            <div class="row g-4">
+                <!-- Card Livros -->
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <svg class="bi mb-3" fill="#3498db" xmlns="http://www.w3.org/2000/svg">
+                                <use xlink:href="#book-fill"/>
+                            </svg>
+                            <h5 class="card-title">Livros</h5>
+                            <p class="card-text">Acesse e gerencie o acervo completo da biblioteca.</p>
+                            <a href="{% url 'listar_livro' %}" class="btn-custom">Acessar</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card Categorias -->
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <svg class="bi mb-3" fill="#3498db" xmlns="http://www.w3.org/2000/svg">
+                                <use xlink:href="#tag-fill"/>
+                            </svg>
+                            <h5 class="card-title">Categorias</h5>
+                            <p class="card-text">Organize seus livros por gênero ou tema.</p>
+                            <a href="{% url 'listar_categoria' %}" class="btn-custom">Acessar</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card Empréstimos -->
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <svg class="bi mb-3" fill="#3498db" xmlns="http://www.w3.org/2000/svg">
+                                <use xlink:href="#clock-fill"/>
+                            </svg>
+                            <h5 class="card-title">Empréstimos</h5>
+                            <p class="card-text">Controle datas de devolução e histórico de empréstimos.</p>
+                            <a href="{% url 'listar_emprestimos' %}" class="btn-custom">Acessar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

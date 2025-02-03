@@ -1,0 +1,21 @@
+
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-warning text-white text-center">
+                        <h2>Acesso Restrito</h2>
+                    </div>
+                    <div class="card-body text-center">
+                        <p>Você precisa estar logado para acessar esta página.</p>
+                        <a href="{% url 'login' %}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-box-arrow-in-right"></i> Fazer Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

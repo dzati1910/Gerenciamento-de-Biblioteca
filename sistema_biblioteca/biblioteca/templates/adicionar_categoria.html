@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Adicionar Categoria{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if user.is_superuser %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Adicionar Categoria</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-flex justify-content-between mt-3">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-save"></i> Salvar
+                            </button>
+                            <a href="{% url 'listar_categoria' %}" class="btn btn-danger">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    {% include 'restrito.html' %}
+{% endif %}
+{% endif %}
+{% endblock %}

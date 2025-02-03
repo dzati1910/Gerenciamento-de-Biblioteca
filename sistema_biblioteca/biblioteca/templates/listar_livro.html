@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Livros{% endblock %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+    /* Estilos customizados para a página */
+    .livro-list-container {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        margin: 2rem auto;
+        max-width: 1200px;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .livro-list-container h2 {
+        color: var(--primary, #0d6efd);
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .livro-list-container h2::after {
+        content: '';
+        width: 60px;
+        height: 4px;
+        background-color: var(--accent, #198754);
+        display: block;
+        margin: 0.5rem auto 0;
+        border-radius: 2px;
+    }
+
+    .table-responsive {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+    }
+
+    .table thead th {
+        background: #f8f9fa; /* Cinza bem claro */
+        color: #495057; /* Texto cinza escuro */
+        font-weight: 600;
+        text-align: left;
+        padding: 1rem;
+    }
+
+    .table tbody tr {
+        transition: background 0.3s, transform 0.3s;
+    }
+
+    .table tbody tr:hover {
+        background: #f1f3f5;
+        transform: translateY(-2px);
+    }
+
+    .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-custom {
+        border: none;
+        border-radius: 50px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .btn-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary {
+        background: var(--accent, #198754);
+        color: white;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-success {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 2rem;
+        color: #6c757d;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .empty-state h3 {
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state svg {
+        width: 80px;
+        height: 80px;
+        fill: #6c757d;
+        margin: 0 auto 1rem;
+    }
+
+    /* Animações */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .livro-list-container {
+            padding: 1rem;
+            margin: 1rem;
+        }
+
+        .table thead {
+            display: none;
+        }
+
+        .table tbody tr {
+            display: block;
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .table tbody td {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table tbody td:last-child {
+            border-bottom: none;
+        }
+
+        .table tbody td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .action-buttons {
+            justify-content: flex-end;
+        }
+    }
+</style>
+
+<div class="livro-list-container">
+    <h2>Lista de Livros</h2>
+
+    {% if livros %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Data de Publicação</th>
+                        <th>Cópias Disponíveis</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for livro in livros %}
+                        <tr>
+                            <td data-label="Título">{{ livro.titulo }}</td>
+                            <td data-label="Autor">{{ livro.autor }}</td>
+                            <td data-label="Data de Publicação">{{ livro.data_publicacao }}</td>
+                            <td data-label="Cópias Disponíveis">{{ livro.copias_disponiveis }}</td>
+                            <td data-label="Ações" class="action-buttons">
+                                <a href="{% url 'atualizar_livro' livro.id %}" class="btn btn-custom btn-primary">
+                                    <i class="bi bi-pencil-fill"></i> Editar
+                                </a>
+                                {% if user.is_superuser %}
+                                    <a href="{% url 'excluir_livro' livro.id %}" class="btn btn-custom btn-danger">
+                                        <i class="bi bi-trash-fill"></i> Excluir
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M12 22a1 1 0 01-.895-.544l-1.5-3.5A1 1 0 019 16.91V5a1 1 0 012 0v11.91a1 1 0 01.895.544l1.5 3.5A1 1 0 0112 22zM12 5a1 1 0 011 1v10.36l.6.15a1 1 0 01-.41.96l-1.5 3.5A1 1 0 0111 19v-10.36l-.6-.15a1 1 0 01.41-.96l1.5-3.5z"/>
+            </svg>
+            <h3>Nenhum livro cadastrado</h3>
+            <p>Cadastre seus primeiros livros para começar a gerenciar sua biblioteca.</p>
+        </div>
+    {% endif %}
+
+    <div class="d-flex justify-content-between mt-4 flex-wrap">
+        {% if user.is_superuser %}
+            <a href="{% url 'adicionar_livro' %}" class="btn btn-custom btn-success mb-2">
+                <i class="bi bi-plus-circle-fill"></i> Adicionar Livro
+            </a>
+        {% endif %}
+        <a href="{% url 'pagina_inicial' %}" class="btn btn-custom btn-secondary mb-2">
+            <i class="bi bi-house-fill"></i> Voltar
+        </a>
+    </div>
+</div>
+{% endblock %}

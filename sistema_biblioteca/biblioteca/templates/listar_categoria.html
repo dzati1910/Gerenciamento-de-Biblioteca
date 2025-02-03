@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Categorias{% endblock %}
+
+{% block content %}
+<style>
+    /* Estilos customizados para a página */
+    .categoria-list-container {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin: 2rem;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .categoria-list-container h2 {
+        color: var(--primary);
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .table-responsive {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+    }
+
+    .table thead th {
+        background: #e0e0e0; /* Cinza médio claro */
+        color: #333; /* Texto preto */
+        font-weight: 600;
+        text-align: left;
+        padding: 1rem;
+    }
+
+    .table tbody tr {
+        transition: all 0.3s ease;
+    }
+
+    .table tbody tr:hover {
+        background: #f8f9fa;
+        transform: scale(1.005);
+    }
+
+    .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-custom {
+        border: none;
+        border-radius: 25px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary {
+        background: var(--accent);
+        color: white;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-success {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+    }
+
+    .empty-state h3 {
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state svg {
+        width: 80px;
+        height: 80px;
+        fill: #6c757d;
+        margin: 0 auto 1rem;
+    }
+</style>
+
+<div class="categoria-list-container animate-fade">
+    <h2>Lista de Categorias</h2>
+    
+    {% if categorias %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        {% if user.is_superuser %}
+                        <th>Ações</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categoria in categorias %}
+                        <tr>
+                            <td>{{ categoria.nome }}</td>
+                            <td>{{ categoria.descricao }}</td>
+                            {% if user.is_superuser %}
+                            <td class="action-buttons">
+                                <a href="{% url 'atualizar_categoria' categoria.id %}" class="btn btn-custom btn-primary">
+                                    <i class="bi bi-pencil-fill"></i> Editar
+                                </a>
+                                <a href="{% url 'excluir_categoria' categoria.id %}" class="btn btn-custom btn-danger">
+                                    <i class="bi bi-trash-fill"></i> Excluir
+                                </a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M12 22a1 1 0 01-.895-.544l-1.5-3.5A1 1 0 019 16.91V5a1 1 0 012 0v11.91a1 1 0 01.895.544l1.5 3.5A1 1 0 0112 22zM12 5a1 1 0 011 1v10.36l.6.15a1 1 0 01-.41.96l-1.5 3.5A1 1 0 0111 19v-10.36l-.6-.15a1 1 0 01.41-.96l1.5-3.5z"/>
+            </svg>
+            <h3>Nenhuma categoria cadastrada</h3>
+            <p>Cadastre suas primeiras categorias para organizar seus livros.</p>
+        </div>
+    {% endif %}
+
+    <div class="d-flex justify-content-between mt-4">
+        {% if user.is_superuser %}
+            <a href="{% url 'adicionar_categoria' %}" class="btn btn-custom btn-success">
+                <i class="bi bi-plus-circle-fill"></i> Adicionar Categoria
+            </a>
+        {% endif %}
+        <a href="{% url 'pagina_inicial' %}" class="btn btn-custom btn-secondary">
+            <i class="bi bi-house-fill"></i> Voltar
+        </a>
+    </div>
+</div>
+{% endblock %}

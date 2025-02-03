@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Livro Indisponível{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if user.is_authenticated %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-warning text-center p-4 border rounded shadow-sm">
+                <h2 class="text-danger">Livro Indisponível</h2>
+                <p class="mt-3">
+                    O livro <strong>{{ livro.titulo }}</strong> já foi pego por este usuário e não pode ser emprestado novamente.
+                </p>
+                <a href="{% url 'registrar_emprestimo' %}" class="btn btn-secondary mt-3">Voltar</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-danger text-center p-4 border rounded shadow-sm">
+        <h2 class="text-white">Acesso Restrito</h2>
+        <p class="mt-3">Você não tem permissão para acessar esta página. Por favor, faça login.</p>
+        {% include 'restrito.html' %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

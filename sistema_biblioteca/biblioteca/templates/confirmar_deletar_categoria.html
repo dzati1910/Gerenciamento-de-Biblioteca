@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Exclusão da Categoria{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+                <div class="card-header bg-danger text-white text-center">
+                    <h2>Confirmação de Exclusão</h2>
+                </div>
+                <div class="card-body">
+                    <p class="text-center fs-5 text-danger">
+                        Tem certeza de que deseja apagar a categoria <strong>{{ categoria.nome }}</strong>?<br>
+                        Essa ação não pode ser desfeita.
+                    </p>
+                    <div class="d-flex justify-content-around">
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-lg">
+                                <i class="bi bi-trash"></i> Apagar
+                            </button>
+                        </form>
+                        <a href="{% url 'listar_categoria' %}" class="btn btn-secondary btn-lg">
+                            <i class="bi bi-x-circle"></i> Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    {% include 'restrito.html' %}
+{% endif %}
+{% endblock %}

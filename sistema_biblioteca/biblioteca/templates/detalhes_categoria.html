@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes da Categoria{% endblock %}
+
+    {% block content %}
+    {% if user.is_authenticated%}
+        <h2>Detalhes da Categoria</h2>
+
+        <p><strong>Nome:</strong> {{ categoria.nome }}</p>
+        <p><strong>Descrição:</strong> {{ categoria.descricao }}</p>
+
+        <a href="{% url 'atualizar_categoria' categoria.pk %}">Editar Categoria</a>
+
+{% else %}
+    {% include 'restrito.html' %}
+{% endif %}
+{% endblock %}

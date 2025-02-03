@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema de Biblioteca{% endblock %}</title>
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p6P2m9l1kzg3dJTp1RtJL26WllKhP4V9GrKkLwhbGi6Q3l5eZQL2rQeNJvYFSKcYfF8rhtVGTBk+W4WXrPN6oQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --gradient-1: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            --primary: #1f2937;
+            --secondary: #374151;
+            --accent: #6366f1;
+            --light: #f3f4f6;
+            --dark: #111827;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        /* Reset e Geral */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(45deg, #f0f2f5 0%, #e6eaf5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--primary);
+        }
+
+        a {
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            text-decoration: none;
+            opacity: 0.8;
+        }
+
+        /* Cabeçalho Moderno */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--accent) !important;
+            letter-spacing: -0.5px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-brand .icon {
+            font-size: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .nav-link {
+            color: var(--secondary) !important;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem !important;
+            margin: 0 0.5rem;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Conteúdo Principal */
+        main {
+            flex: 1;
+            padding: 4rem 2rem;
+            margin: 2rem auto;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: var(--transition);
+        }
+
+        h1 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+            text-align: center;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: var(--gradient-1);
+            border-radius: 4px;
+        }
+
+        /* Cards Modernos */
+        .card {
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+            transition: var(--transition);
+            background: white;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-1);
+            opacity: 0.03;
+            transition: var(--transition);
+        }
+
+        .card:hover::before {
+            opacity: 0.1;
+        }
+
+        /* Botões Personalizados */
+        .btn-custom {
+            border: none;
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        /* Rodapé Moderno */
+        footer {
+            background: linear-gradient(135deg, #374151, #1f2937);
+            color: white;
+            padding: 4rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: var(--gradient-2);
+            border-radius: 2px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(4px);
+        }
+
+        /* Ícones de Mídias Sociais */
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        /* Animações */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+
+        /* Responsividade Aprimorada */
+        @media (max-width: 768px) {
+            main {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-links a {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="fixed-top navbar navbar-expand-lg animate-fade">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'pagina_inicial' %}">
+                <i class="bi bi-book-fill icon"></i> Biblioteca
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar_livro' %}">Livros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar_categoria' %}">Categorias</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar_emprestimos' %}">Empréstimos</a>
+                    </li>
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                            <a class="nav-link" href="{% url 'perfil_usuario' %}">Perfil</a>
+                        {% else %}
+                            <a class="nav-link" href="{% url 'registro' %}">Cadastro</a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                            <a class="nav-link" href="{% url 'logout' %}">Sair</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="animate-fade">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="footer-content">
+            <!-- Navegação -->
+            <div class="footer-section">
+                <h4>Navegação</h4>
+                <div class="footer-links">
+                    <a href="{% url 'listar_livro' %}">Livros</a>
+                    <a href="{% url 'listar_categoria' %}">Categorias</a>
+                    <a href="{% url 'listar_emprestimos' %}">Empréstimos</a>
+                </div>
+            </div>
+            <!-- Contato -->
+            <div class="footer-section">
+                <h4>Contato</h4>
+                <div class="footer-links">
+                    <a href="mailto:contato@biblioteca.com">contato@biblioteca.com</a>
+                    <a href="tel:+551199999999">(11) 99999-9999</a>
+                    <a href="#">Visite nossa sede</a>
+                </div>
+            </div>
+            <!-- Redes Sociais -->
+            <div class="footer-section">
+                <h4>Siga-nos</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                document.querySelector('header').classList.add('scrolled');
+            } else {
+                document.querySelector('header').classList.remove('scrolled');
+            }
+        });
+    </script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/fontawesome.min.js' %}"></script>
+</body>
+</html>
